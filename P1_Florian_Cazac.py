@@ -54,9 +54,9 @@ def parse_args():
         )    
     
     # Add the arguments
-    parser.add_argument("--xmin", type=float, default=0, help="Minimum bound for x")
+    parser.add_argument("--xmin", type=float, default=1, help="Minimum bound for x")
     parser.add_argument("--xmax", type=float, default=30, help="Maximum bound for x")
-    parser.add_argument("--ymin", type=float, default=0, help="Minimum bound for y")
+    parser.add_argument("--ymin", type=float, default=1, help="Minimum bound for y")
     parser.add_argument("--ymax", type=float, default=30, help="Maximum bound for y")
 
     return parser.parse_args()
@@ -68,8 +68,8 @@ def plot(bounds):
     optimal_values, max_profit = optimize_problem(bounds)
 
     # Create grid for contour plot
-    x = np.linspace(bounds[0][0], bounds[0][1], 400)
-    y = np.linspace(bounds[1][0], bounds[1][1], 400)
+    x = np.linspace(1,30, 400)
+    y = np.linspace(1,30, 400)
     X, Y = np.meshgrid(x, y)
     
     # Compute the objective function values for the grid
@@ -80,11 +80,7 @@ def plot(bounds):
     y2 = 50 / x        
     y3 = (3 * x**2) / 100 + 5  
 
-    # Plot the constraints
-    plt.figure(figsize=(10, 8))
-    plt.plot(x, y1, label=r'$x + 2y \leq 30$', color='blue')
-    plt.plot(x, y2, label=r'$xy \geq 50$', color='green')
-    plt.plot(x, y3, label=r'$y \leq \frac{3x^2}{100} + 5$', color='red')
+    plt.figure(figsize=(8, 6))
 
     # Fill feasible region
     plt.fill_between(x, np.maximum(y2, np.full_like(x, -np.inf)), np.minimum(y1, y3), where=(y2 <= y3) & (y2 <= y1), color='gray', alpha=0.5)
@@ -92,6 +88,11 @@ def plot(bounds):
     # Plot the objective function
     contour = plt.contour(X, Y, Z, levels=20, cmap='viridis')
     plt.clabel(contour, inline=True, fontsize=8, fmt='%.1f')
+
+    # Plot the constraints
+    plt.plot(x, y1, label=r'$x + 2y \leq 30$', color='blue')
+    plt.plot(x, y2, label=r'$xy \geq 50$', color='green')
+    plt.plot(x, y3, label=r'$y \leq \frac{3x^2}{100} + 5$', color='red')
 
     # Plot the optimal point
     plt.plot(optimal_values[0], optimal_values[1], 'ro', label='Optimal Point')
