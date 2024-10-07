@@ -39,11 +39,16 @@ def optimize_problem(bounds):
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="SLSQP Optimization for Resource Allocation")
+    parser = argparse.ArgumentParser(
+            description="SLSQP Optimization for Resource Allocation",
+            epilog=
+            "Use the following format: python your_script.py --xmin <value> --xmax <value> --ymin <value> --ymax <value>"
+        )    
     parser.add_argument("--xmin", type=float, default=0, help="Minimum bound for x")
     parser.add_argument("--xmax", type=float, default=30, help="Maximum bound for x")
     parser.add_argument("--ymin", type=float, default=0, help="Minimum bound for y")
     parser.add_argument("--ymax", type=float, default=30, help="Maximum bound for y")
+
     return parser.parse_args()
 
 
@@ -77,7 +82,7 @@ def plot_feasible_region():
 
     plt.xlabel('x')
     plt.ylabel('y')
-    plt.title('Feasible Region for Resource Allocation Problem')
+    plt.title('Feasible Region for Company Problem')
     plt.legend(loc='upper right')
     plt.grid(True)
     plt.show()
